@@ -1,0 +1,10 @@
+# Production Network for hostname-1
+configure network add 192.168.200.0/24 addreverse member 192.168.0.1 member 192.168.0.2 option routers=" 192.168.200.254" comment "ibcli created"
+configure zone example.com add host vlan10-hostname-1  192.168.200.254
+configure zone example.com add host lo0-hostname-1  192.168.1.1
+configure network add range 192.168.200.1 192.168.200.200 failover DHCP-FailOver 
+# Production Network for hostname-2
+configure network add 192.168.201.0/24 addreverse member 192.168.0.1 member 192.168.0.2 option routers=" 192.168.201.254" comment "ibcli created"
+configure zone example.com add host vlan10-hostname-2  192.168.201.254
+configure zone example.com add host lo0-hostname-2  192.168.1.2
+configure network add range 192.168.201.1 192.168.201.200 failover DHCP-FailOver 

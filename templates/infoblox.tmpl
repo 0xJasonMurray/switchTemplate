@@ -1,0 +1,6 @@
+# Production Network for {{ hostname }}
+configure network add {{ networkid }}.0/24 addreverse member 192.168.0.1 member 192.168.0.2 option routers="{{ accessgw }}" comment "ibcli created"
+configure zone example.com add host vlan10-{{ hostname }} {{ accessgw }}
+configure zone example.com add host lo0-{{ hostname }} {{ lo0 }}
+configure network add range {{ networkid }}.1 {{ networkid }}.200 failover DHCP-FailOver 
+

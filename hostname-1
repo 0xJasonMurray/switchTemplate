@@ -1,0 +1,112 @@
+! Example Switch Configuration
+!
+hostname hostname-1
+!
+vlan 10
+ name access-port
+!
+interface Loopback0
+ ip address  192.168.1.1 255.255.255.255
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+!
+interface Gi1/1
+ description core-1 P2P
+ no switchport
+ ip address  192.168.100.1  255.255.255.254
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no shutdown
+!
+interface Gi1/2
+ description core-2 P2P
+ no switchport
+ ip address  192.168.100.3  255.255.255.254
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no shutdown
+!
+
+interface Gi1/2
+ description access port
+ switchport
+ switchport mode access
+ switchport access vlan 10
+
+interface Gi1/3
+ description access port
+ switchport
+ switchport mode access
+ switchport access vlan 10
+
+interface Gi1/4
+ description access port
+ switchport
+ switchport mode access
+ switchport access vlan 10
+
+interface Gi1/5
+ description access port
+ switchport
+ switchport mode access
+ switchport access vlan 10
+
+interface Gi1/6
+ description access port
+ switchport
+ switchport mode access
+ switchport access vlan 10
+
+interface Gi1/7
+ description access port
+ switchport
+ switchport mode access
+ switchport access vlan 10
+
+interface Gi1/8
+ description access port
+ switchport
+ switchport mode access
+ switchport access vlan 10
+
+!
+interface Vlan10
+ description Access Network
+ ip address  192.168.200.254  255.255.255.0
+ ip helper-address 192.168.0.1
+ ip helper-address 192.168.0.2
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+!
+router ospf 1
+ router-id  192.168.1.1
+ nsf cisco
+ passive-interface default
+ no passive-interface gi1/1
+ no passive-interface gi1/1
+ no passive-interface Vlan10
+!
+ip access-list standard LINE_MGMT
+ permit 192.168.0.0 0.0.0.255
+!
+line con 0
+ exec-timeout 30 0
+ timeout login response 15
+line vty 0 4
+ access-class LINE_MGMT in
+ exec-timeout 30 0
+ timeout login response 15
+ length 0
+ transport input ssh
+line vty 5 15
+ access-class LINE_MGMT in
+ exec-timeout 30 0
+ timeout login response 15
+ length 0
+ transport input ssh
+!
+end
